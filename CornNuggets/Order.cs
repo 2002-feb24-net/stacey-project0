@@ -1,18 +1,23 @@
+using System.Collections.Generic;
+using System;
+
 namespace CornNuggets
 {
     class Order
     {
-        int orderID;
-        int[] orders;
-        
-        
+        static int ordID=1000;
+
+        static List<int> orders = new List<int>() {ordID};
         static void AddOrder()
         {
-            Console.WriteLine("Hello World!");
+            orders.Add(ordID++);
         }
-        static void SearchOrder(string name)
+        static void SearchOrder(int id)
         {
-            Console.WriteLine("Hello World!");
+            if (orders.Contains(id))
+            {
+                Console.WriteLine("Order Found");
+            }
         }
         static void DisplayOrder(string[] args)
         {

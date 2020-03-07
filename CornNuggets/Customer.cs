@@ -1,23 +1,31 @@
+using System.Collections.Generic;
+using System;
+
+
 namespace CornNuggets
 {
     class Customer
     {
-        int custID;
+        static int customerID;
+        static List<string> cust = new List<string>() {"First Customer"};
+        public Customer()
+        {
+            customerID++;
+        }
 
-        string[] customers;
-
-        
-        static void AddCustomer()
+        public void AddCustomer(string next) => cust.Add(next);
+        public void SearchCustomer(string name)
         {
-            Console.WriteLine("Hello World!");
+            if (cust.Contains(name))
+            {
+                Console.WriteLine("Customer Found");
+            }
+            else
+            {
+                Console.WriteLine("No Match Found");
+            }
+            
         }
-        static void SearchCustomer(string name)
-        {
-            Console.WriteLine("Hello World!");
-        }
-        static void DisplayOrder(string[] args)
-        {
-            Console.WriteLine("Here's your orderd!");
-        }
+        public void DisplayCust(string name) => Console.WriteLine(name);
     }
 }
