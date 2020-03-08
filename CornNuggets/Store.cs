@@ -7,16 +7,24 @@ namespace CornNuggets
     {
         int storeID;
 
-        int[] stores;
+        static List<string> stores = new List<string>() {"Dallas","Arlington","Weston","Columbia","Tampa","Miami"};
         
         
-        static void AddStore()
+        
+        static void AddStore(string location)
         {
-            Console.WriteLine("Hello World!");
+            stores.Add(location);
         }
-        static void SearchStore(string id)
+        static void SearchStore(string location)
         {
-            Console.WriteLine("Hello World!");
+            if (stores.Contains(location))
+            {
+                Console.WriteLine("Location Found");
+            }
+            else
+            {
+                Console.WriteLine("No Match Found");
+            }
         }
         static void DisplayStores(string[] args)
         {

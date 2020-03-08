@@ -6,6 +6,11 @@ namespace CornNuggets
     class Order
     {
         static int ordID=1000;
+        DateTime timeStamp;
+        Store storeNum;
+        Customer custID;
+        List<string> products;
+
 
         static List<int> orders = new List<int>() {ordID};
         static void AddOrder()

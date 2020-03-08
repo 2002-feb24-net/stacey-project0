@@ -8,11 +8,39 @@ namespace CornNuggets
     {
         static void Main(string[] args)
         {
-            string cust = GetInput("Please enter the customer's full name: ");
+            //call start menu for add/search/view/exit options
+            Menu start = new Menu();
             Customer patron = new Customer();
-            patron.AddCustomer(cust);
-            patron.SearchCustomer(cust);
-            patron.DisplayCust(cust);
+            Store location = new Store();
+            //loop through menu options until exit
+            string option;
+            start.ShowMainMenu();
+            option = start.GetInput("Enter the letter of your choice: ");
+            do
+            {
+                
+                switch (option)
+                {
+                    case "a":
+                    {
+                        start.ShowAddMenu();
+                        break;
+                    }
+                    case "s":
+                    {
+                        start.ShowSearchMenu();
+                        break;
+                    }
+                    case "v":
+                    {
+                        start.ShowViewMenu();
+                        break;
+                    }
+                }
+                option = start.GetInput("Enter the letter of your choice: ");
+            }while (option != "e");
+            
+
 
         }
         static string GetInput(string message)

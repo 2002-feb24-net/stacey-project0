@@ -6,7 +6,7 @@ namespace CornNuggets
 {
     class Customer
     {
-        static int customerID;
+        public int customerID;
         static List<string> cust = new List<string>() {"First Customer"};
         public Customer()
         {
