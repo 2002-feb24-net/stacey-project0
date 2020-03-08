@@ -11,11 +11,11 @@ namespace CornNuggets
         
         
         
-        static void AddStore(string location)
+        public void AddStore(string location)
         {
             stores.Add(location);
         }
-        static void SearchStore(string location)
+        public void SearchStore(string location)
         {
             if (stores.Contains(location))
             {
@@ -26,9 +26,13 @@ namespace CornNuggets
                 Console.WriteLine("No Match Found");
             }
         }
-        static void DisplayStores(string[] args)
+        public void DisplayStores()
         {
-            Console.WriteLine("Here's your orderd!");
+            foreach(string name in stores)
+            {
+                Console.WriteLine($"{name} Store");
+            }
+            
         }
     }
 }

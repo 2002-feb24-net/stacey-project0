@@ -26,6 +26,12 @@ namespace CornNuggets
             }
             
         }
-        public void DisplayCust(string name) => Console.WriteLine(name);
+        public void DisplayCustomers()
+        {
+            foreach (string name in cust)
+            {
+                Console.WriteLine($"{customerID++} {name}");
+            }
+        }
     }
 }

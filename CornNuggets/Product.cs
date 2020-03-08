@@ -6,11 +6,14 @@ namespace CornNuggets
     class Product
     {
         int productID;
+
+        List<string> nuggets = new List<string> {"Blue", "Habenaro", "Nacho", "Tomato"};
+        List<string> sauces = new List<string> {"Salsa", "Cheese", "Avocado", "Onion"};
+        List<string> drinks = new List<string> {"Fizzy", "Tea","Juice", "Smoothie"};
         
-        
-        static void AddProduct()
+        public void BuyProduct(int item)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine($"Product {item} Purchased. Thank You!");
         }
         static void SearchProduct(string name)
         {
