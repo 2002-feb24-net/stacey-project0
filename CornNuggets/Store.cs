@@ -13,23 +13,36 @@ namespace CornNuggets
         
         public void AddStore(string location)
         {
-            stores.Add(location);
-        }
-        public void SearchStore(string location)
-        {
-            if (stores.Contains(location))
+            //input validation before add
+            if (isStore(location))
             {
-                Console.WriteLine("Location Found");
+                System.Console.WriteLine("Store Already Exists!");
             }
             else
             {
-                Console.WriteLine("No Match Found");
+                //add request fulfillment
+                stores.Add(location);
+            }
+            
+        }
+        public bool isStore(string location)
+        {
+            if (stores.Contains(location))
+            {
+                //Console.WriteLine("Location Found");
+                return true;
+            }
+            else
+            {
+                //Console.WriteLine("No Match Found");
+                return false;
             }
         }
         public void DisplayStores()
         {
             foreach(string name in stores)
             {
+                //print list of all store locations
                 Console.WriteLine($"{name} Store");
             }
             

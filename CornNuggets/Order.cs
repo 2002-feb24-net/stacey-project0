@@ -5,28 +5,48 @@ namespace CornNuggets
 {
     class Order
     {
-        static int ordID=1000;
-        DateTime timeStamp;
-        Store storeNum;
-        Customer custID;
-        List<string> products;
+        
+            public int ordID;
+            public DateTime timeStamp;
+            public Store storeName;
+            public Customer custName;
+            public List<Product> prod = new List<Product>();
+            double total;
+        
+        
 
 
-        static List<int> orders = new List<int>() {ordID};
-        static void AddOrder()
+        public Order()
         {
-            orders.Add(ordID++);
+            timeStamp = DateTime.Now;
+            
         }
-        static void SearchOrder(int id)
+        
+        public int TakeOrder(string cust, string store, int prod)
         {
-            if (orders.Contains(id))
+            timeStamp = DateTime.Now;
+            custName.AddCustomer(cust);
+            storeName.AddStore(store);
+            //prod.AddProduct(prod);
+
+            return ordID++;
+        }
+        public void SearchOrder(int id)
+        {
+            /*if (name.Contains(id))
+            {
+                Console.WriteLine("No match found!");
+            }
+            else
             {
                 Console.WriteLine("Order Found");
-            }
+            }*/
+
         }
-        static void DisplayOrder(string[] args)
+        public void DisplayOrder()
         {
-            Console.WriteLine("Here's your order!");
+            Console.WriteLine($"{timeStamp}, {ordID}, {storeName}, {custName}, {total}");
+
         }
     }
 }

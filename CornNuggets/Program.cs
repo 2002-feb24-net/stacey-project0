@@ -12,7 +12,7 @@ namespace CornNuggets
             Menu start = new Menu();
             Customer patron = new Customer();
             Store location = new Store();
-            Product prod = new Product();
+            Order items = new Order();
             //loop through menu options until exit
             string option;
             start.ShowMainMenu();
@@ -49,10 +49,33 @@ namespace CornNuggets
                     case "n":
                     {
                         //new order request
-                        start.ShowProductMenu();
-                        int prodSelection = Convert.ToInt32(start.GetInput("Enter the item number"));
-                        prod.BuyProduct(prodSelection);
+                        string customerName = start.GetInput("Please enter the customer's name");
+                        if (patron.isCustomer(customerName))
+                        {
+                            string storeLocation = GetInput("Please enter the preferred store");
+                            if (location.isStore(storeLocation))
+                            {
+                                start.ShowProductMenu();
+                                string nextProd = GetInput("Enter the product name");
+                                Product prod = new Product(nextProd);
+                                int prodSelection;
+                                do
+                                {
+                                prodSelection = Convert.ToInt32(start.GetInput("Enter the next item number or 999 to exit.a"));
+                                items.TakeOrder(customerName, storeLocation, prodSelection);
+                                
+                                }while(prodSelection != 999);
+                            }
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Customer does not exist. Please add customer.");
+                        }
                         break;
+
+                        
+
+                        
                     }
                     case "m":
                     {
@@ -74,7 +97,16 @@ namespace CornNuggets
                     {
                         //search customer by name
                         string name = start.GetInput("Please enter the customers name");
-                        patron.SearchCustomer(name);
+                        bool exists = patron.isCustomer(name);
+                        if (exists)
+                        {
+                            Console.WriteLine($"Found Customer: {name}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No match found. Please add {name}.");
+
+                        }
                         start.ShowMainMenu();
                         break;
                     }
@@ -82,7 +114,15 @@ namespace CornNuggets
                     {
                         //search for store location by name
                         string name = start.GetInput("Please enter the store name");
-                        location.SearchStore(name);
+                        bool valid = location.isStore(name);
+                        if (valid)
+                        {
+                            Console.WriteLine("Store Location found");
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Location does not exist. Please add store.");
+                        }
                         start.ShowMainMenu();
                         break;
                     }
@@ -90,6 +130,8 @@ namespace CornNuggets
                     {
                         //view order history
                         start.ShowOrdersBanner();
+                        items.DisplayOrder();
+                        start.ShowMainMenu();
                         break;
                     }
                     case "u":

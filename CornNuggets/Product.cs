@@ -5,23 +5,43 @@ namespace CornNuggets
 {
     class Product
     {
-        int productID;
+            public string name = "Demo";
+            public int prodID = 110;
+            public double price = 0.0;
 
-        List<string> nuggets = new List<string> {"Blue", "Habenaro", "Nacho", "Tomato"};
-        List<string> sauces = new List<string> {"Salsa", "Cheese", "Avocado", "Onion"};
-        List<string> drinks = new List<string> {"Fizzy", "Tea","Juice", "Smoothie"};
-        
-        public void BuyProduct(int item)
+
+            //product id and associated price defined
+            Dictionary<int,double> prods = new Dictionary<int,double> ();
+       
+        public Product(string prodName)
         {
-            Console.WriteLine($"Product {item} Purchased. Thank You!");
+            name = prodName;
+            prodID = 999;
+            price = 0.0;
         }
-        static void SearchProduct(string name)
+        public double BuyProduct(int next)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine($"Product {next} Purchased. Thank You!");
+            prods.Add(next, 3.0 );
+            return prods[next];
+
         }
-        static void DisplayOrder(string[] args)
+        public void AddProduct(int id,double cost)
         {
-            Console.WriteLine("Here's your orderd!");
+            //add product to the inventory
+            /*if (item[next])
+            {
+                Console.WriteLine($"Product {next} costs {item.products[next]}");
+            }
+            else
+            {
+                Console.WriteLine("No Match Found!");
+            }*/
+        }
+        public void DisplayProducts()
+        {
+            //show information about product
+            Console.WriteLine($"Name: {name}, ID: {prodID}, Price: {price}");
         }
     }
 }

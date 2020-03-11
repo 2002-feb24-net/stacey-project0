@@ -13,16 +13,29 @@ namespace CornNuggets
             customerID++;
         }
 
-        public void AddCustomer(string next) => cust.Add(next);
-        public void SearchCustomer(string name)
+        public void AddCustomer(string next)
         {
-            if (cust.Contains(name))
+            if (isCustomer(next))
             {
-                Console.WriteLine("Customer Found");
+                System.Console.WriteLine("Already exist!");
             }
             else
             {
-                Console.WriteLine("No Match Found");
+                cust.Add(next);
+                System.Console.WriteLine("Added.");
+            }
+        } 
+        public bool isCustomer(string name)
+        {
+            if (cust.Contains(name))
+            {
+                //Console.WriteLine("Customer Found");
+                return true;
+            }
+            else
+            {
+                //Console.WriteLine("No Match Found");
+                return false;
             }
             
         }

@@ -22,7 +22,7 @@ namespace CornNuggets
             return choice;
         }
         
-        public void ShowMainMenu() => Console.WriteLine("Main options: a - add, s - search, v - view, e - exit: ");
+        public void ShowMainMenu() => Console.WriteLine("Main Menu options: a - add, s - search, v - view, e - exit: ");
         public void ShowBanner() => Console.WriteLine($"***************** Welcome to Corn Nuggets!*****************");
         public void ShowBanner(string menu) => Console.WriteLine($"*****************Corn Nuggets {menu} Menu*****************");
 
