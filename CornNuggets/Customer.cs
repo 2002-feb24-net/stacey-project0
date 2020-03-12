@@ -22,7 +22,7 @@ namespace CornNuggets
             else
             {
                 cust.Add(next);
-                System.Console.WriteLine("Added.");
+                System.Console.WriteLine("Added customer.");
             }
         } 
         public bool isCustomer(string name)

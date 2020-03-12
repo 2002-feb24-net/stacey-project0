@@ -61,7 +61,7 @@ namespace CornNuggets
                                 int prodSelection;
                                 do
                                 {
-                                prodSelection = Convert.ToInt32(start.GetInput("Enter the next item number or 999 to exit.a"));
+                                prodSelection = Int32.Parse(start.GetInput("Enter the next item number or 999 to exit"));
                                 items.TakeOrder(customerName, storeLocation, prodSelection);
                                 
                                 }while(prodSelection != 999);

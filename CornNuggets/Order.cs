@@ -6,11 +6,11 @@ namespace CornNuggets
     class Order
     {
         
-            public int ordID;
+            public int ordID = 1000;
             public DateTime timeStamp;
-            public Store storeName;
-            public Customer custName;
-            public List<Product> prod = new List<Product>();
+            public Store storeName = new Store();
+            public Customer custName = new Customer();
+            public Product items = new Product("Demo");
             double total;
         
         
@@ -25,11 +25,12 @@ namespace CornNuggets
         public int TakeOrder(string cust, string store, int prod)
         {
             timeStamp = DateTime.Now;
+            ordID++;
             custName.AddCustomer(cust);
             storeName.AddStore(store);
-            //prod.AddProduct(prod);
+            items.BuyProduct(prod);
 
-            return ordID++;
+            return ordID;
         }
         public void SearchOrder(int id)
         {
