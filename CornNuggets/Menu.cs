@@ -6,7 +6,7 @@ namespace CornNuggets
 {
     class Menu
     {
-        string choice;
+        string Choice {get; set;}
         static List<string> selection = new List<string>() {"a", "s","v","e","b"};
 
         public Menu()
@@ -17,8 +17,8 @@ namespace CornNuggets
         public string GetInput(string message)
         {
             Console.WriteLine(message);
-            string choice = Console.ReadLine();
-            return choice;
+            Choice = Console.ReadLine();
+            return Choice;
         }
         
         public void ShowMainMenu() => Console.WriteLine("\nMain Menu options: a - add, s - search, v - view, e - exit: ");
