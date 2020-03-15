@@ -29,9 +29,12 @@ namespace CornNuggets
 
         }*/
         List<int> prods = new List<int>();
+        List<string> prodNames = new List<string>();
+        List<double> prices = new List<double>();
        
         public Product()
         {
+            //
             prods.Add(112);
             prods.Add(113);
             prods.Add(114);
@@ -44,6 +47,34 @@ namespace CornNuggets
             prods.Add(334);
             prods.Add(335);
             prods.Add(336);
+            //product name list
+            prodNames.Add("Habenero");
+            prodNames.Add("Nacho");
+            prodNames.Add("Blue");
+            prodNames.Add("Tomato");
+            prodNames.Add("Salsa");
+            prodNames.Add("Avocado");
+            prodNames.Add("Onion");
+            prodNames.Add("Cheese");
+            prodNames.Add("Fizzy");
+            prodNames.Add("Tea");
+            prodNames.Add("Juice");
+            prodNames.Add("Smoothie");
+            //price list
+            prices.Add(4.0);
+            prices.Add(4.0);
+            prices.Add(4.0);
+            prices.Add(4.0);
+            prices.Add(1.0);
+            prices.Add(1.0);
+            prices.Add(1.0);
+            prices.Add(1.0);
+            prices.Add(2.0);
+            prices.Add(2.0);
+            prices.Add(2.0);
+            prices.Add(2.0);
+
+
         }
         public Product(string name, int id, double price)
         {

@@ -18,12 +18,12 @@ namespace CornNuggets
         {
             if (isCustomer(next))
             {
-                System.Console.WriteLine("Already exist!");
+                System.Console.WriteLine("Customer already exist!");
             }
             else
             {
                 cust.Add(next);
-                System.Console.WriteLine("Added customer.");
+                System.Console.WriteLine($"Added customer: {next}");
             }
         } 
         public bool isCustomer(string name)

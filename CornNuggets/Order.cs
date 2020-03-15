@@ -19,7 +19,7 @@ namespace CornNuggets
         public Order()
         {
             timeStamp = DateTime.Now;
-            
+
             
         }
         
@@ -30,6 +30,7 @@ namespace CornNuggets
             items.BuyProduct(prod);
             storeName.Name = store;
             custName.CustName = cust;
+            Total += items.Price;
             return ordID;
         }
         public void SearchOrder(int id)
