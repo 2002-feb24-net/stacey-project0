@@ -10,8 +10,8 @@ namespace CornNuggets
             public DateTime timeStamp;
             public Store storeName = new Store();
             public Customer custName = new Customer();
-            public Product items = new Product("Demo");
-            double total;
+            public Product items = new Product("Demo", 100, 1.0);
+            public double Total { get; set; }
         
         
 
@@ -20,16 +20,16 @@ namespace CornNuggets
         {
             timeStamp = DateTime.Now;
             
+            
         }
         
         public int TakeOrder(string cust, string store, int prod)
         {
             timeStamp = DateTime.Now;
             ordID++;
-            custName.AddCustomer(cust);
-            storeName.AddStore(store);
             items.BuyProduct(prod);
-
+            storeName.Name = store;
+            custName.CustName = cust;
             return ordID;
         }
         public void SearchOrder(int id)
@@ -46,7 +46,7 @@ namespace CornNuggets
         }
         public void DisplayOrder()
         {
-            Console.WriteLine($"{timeStamp}, {ordID}, {storeName}, {custName}, {total}");
+            Console.WriteLine($"{timeStamp}, {ordID}, {storeName.Name}, {custName.CustName}, {Total}");
 
         }
     }

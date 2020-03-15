@@ -6,6 +6,7 @@ namespace CornNuggets
     class Store
     {
         int storeID;
+        public string Name { get; set; }
 
         static List<string> stores = new List<string>() {"Dallas","Arlington","Weston","Columbia","Tampa","Miami"};
         

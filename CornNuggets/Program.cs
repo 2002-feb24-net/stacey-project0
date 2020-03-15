@@ -56,26 +56,28 @@ namespace CornNuggets
                             if (location.isStore(storeLocation))
                             {
                                 start.ShowProductMenu();
-                                string nextProd = GetInput("Enter the product name");
-                                Product prod = new Product(nextProd);
                                 int prodSelection;
                                 do
                                 {
-                                prodSelection = Int32.Parse(start.GetInput("Enter the next item number or 999 to exit"));
-                                items.TakeOrder(customerName, storeLocation, prodSelection);
-                                
+                                prodSelection = Int32.Parse(start.GetInput("Enter the next item number or 999 to complete the order."));
+                                if (new Product().isProduct(prodSelection))
+                                {
+                                    items.TakeOrder(customerName, storeLocation, prodSelection);
+                                }
                                 }while(prodSelection != 999);
                             }
+                            else
+                            {
+                                System.Console.WriteLine("Store does not exist. Please add store.");
+                            }
+                            start.ShowOrdersBanner();
+                            items.DisplayOrder();
                         }
                         else
                         {
                             System.Console.WriteLine("Customer does not exist. Please add customer.");
                         }
-                        break;
-
-                        
-
-                        
+                        break;      
                     }
                     case "m":
                     {
