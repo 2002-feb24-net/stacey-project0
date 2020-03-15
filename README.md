@@ -3,17 +3,18 @@ Store Implementation
 Functionality:
 
 1. add a new customer *done*
-    main menu option "a" to add, then add option "m" for new customer. User enters customer name. feedback at console is "Added customer: [custName]" or "Customer already exists."
+    main menu option "a" to add, then add option "m" for new customer. User enters customer name. Feedback at console is "Added customer: [custName]" or "Customer already exists."
 
 2. search customers by name *done*
-    main menu selection "s" to search, then search option "c" for existing customer. User enters customer's name. Feedback at console  is "Found Customer: {name}" or  "No match found. Please add customer."
+    main menu selection "s" to search, then search option "c" for existing customer. User enters customer's name. Feedback at console  is "Found Customer: [name]" or  "No match found. Please add customer."
 
 3. place orders to store locations for customers *done*
-    main menu option "a" to add, then add option "n" for new order. Requests Customer name and store name before going into a loop to add items to order.
+    main menu option "a" to add, then add option "n" for new order. Requests Customer name and store name before going into a loop to add items to order. Feedback at console is "Product [prodNum] purchased. Thank you!" loop allows additional items to be added to order. Order.TakeOrder returns the order number.
 
 4. display all order history of a customer *in progress*
 
 5. display details of an order *done*
+    Order.DisplayOrder method called after taking order in the add option "n" for new order. OrderBanner is printed, as well as the order details: timeStamp, OrderNum, CustName, StoreName, and Total 
 
 6. display all order history of a store location *in progress*
 
