@@ -3,15 +3,18 @@ using System;
 
 namespace CornNuggets
 {
-    class Product
+    class Product : IProduct
     {
-        /* Product Line
+        /* Stacey Joseph, Revature, Project 0
+         * Store Implementation
+         * C:\Revature\stacey-project0\CornNuggets\Product.cs
+         * Product Line
         "Nuggets $4 ea: 111 - Habenero, 112 - Nacho, 113 - Blue, 114 - Tomato ");
         "Sauces $1 ea: 222 - Salsa, 223 - Avocado, 224 - Onion, 225 - Cheese ");
         "Drinks $2 ea: 333 - Fizzy, 334 - Tea, 335 - Juice, 336 - Smoothie ");*/
-            public string Name { get; set; }
-            public int ProdID { get; set; }
-            public double Price { get; set; }
+        public string Name { get; set; }
+        public int ProdID { get; set; }
+        public double Price { get; set; }
         /*public enum itemCodes
         {
             Habenero = 111,
@@ -31,7 +34,7 @@ namespace CornNuggets
         List<int> prods = new List<int>();
         List<string> prodNames = new List<string>();
         List<double> prices = new List<double>();
-       
+
         public Product()
         {
             //
@@ -85,10 +88,10 @@ namespace CornNuggets
 
         public double BuyProduct(int next)
         {
-            if(next != 999)
+            if (next != 999)
             {
-            Console.WriteLine($"Product {next} Purchased. Thank You!"); 
-            //returns the price charged
+                Console.WriteLine($"Product {next} Purchased. Thank You!");
+                //returns the price charged
 
             }
             return Price;
@@ -107,7 +110,7 @@ namespace CornNuggets
                 return false;
             }
         }
-        public void AddProduct(string name,int id, double price)
+        public void AddProduct(string name, int id, double price)
         {
             if (isProduct(id))
             {
@@ -115,7 +118,7 @@ namespace CornNuggets
                 System.Console.WriteLine("Product Available!");
                 Name = name;
                 Price = price;
-                
+
             }
             else
             {
@@ -124,9 +127,9 @@ namespace CornNuggets
                 Name = name;
                 Price = price;
             }
-            
+
         }
-        
+
         public void DisplayProducts()
         {
             //show information about product
