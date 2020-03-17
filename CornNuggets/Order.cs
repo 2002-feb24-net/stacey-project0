@@ -5,8 +5,12 @@ namespace CornNuggets
 {
     class Order
     {
-        
-            public int ordID = 1000;
+        /*Stacey Joseph, Revature, Project 0
+         * Store Implementation
+         * C:\Revature\stacey-project0\CornNuggets\Order.cs
+        */
+
+        public int ordID = 1000;
             public DateTime timeStamp;
             public Store storeName = new Store();
             public Customer custName = new Customer();

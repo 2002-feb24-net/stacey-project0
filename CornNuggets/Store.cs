@@ -5,6 +5,10 @@ namespace CornNuggets
 {
     class Store
     {
+        /*Stacey Joseph, Revature, Project 0
+         * Store Implementation
+         * C:\Revature\stacey-project0\CornNuggets\Store.cs
+        */
         int StoreID { get; set; }
         public string Name { get; set; }
 

@@ -6,6 +6,10 @@ namespace CornNuggets
 {
     class Customer
     {
+        /*Stacey Joseph, Revature, Project 0
+         * Store Implementation
+         * C:\Revature\stacey-project0\CornNuggets\Customer.cs
+        */
         public int customerID;
         public string CustName { get; set; }
         static List<string> cust = new List<string>() {"First Customer"};

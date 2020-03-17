@@ -6,6 +6,10 @@ namespace CornNuggets
 {
     class Program
     {
+        /*Stacey Joseph, Revature, Project 0
+         * Store Implementation
+         * C:\Revature\stacey-project0\CornNuggets\Program.cs
+        */
         static void Main(string[] args)
         {
             //call start menu for add/search/view/exit options

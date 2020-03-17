@@ -37,7 +37,7 @@ namespace CornNuggets
 
         public Product()
         {
-            //
+            //add product numbers
             prods.Add(112);
             prods.Add(113);
             prods.Add(114);
@@ -133,7 +133,7 @@ namespace CornNuggets
         public void DisplayProducts()
         {
             //show information about product
-            Console.WriteLine($"Name: {Name}, ID: {ProdID}, Price: {Price}");
+            Console.WriteLine($"Name: {Name}, ID: {ProdID}, Price: $ {Price}");
         }
     }
 }
