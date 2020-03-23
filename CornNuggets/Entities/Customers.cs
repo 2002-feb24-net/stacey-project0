@@ -15,7 +15,6 @@ namespace CornNuggets.Entities
         public string LastName { get; set; }
         public string PreferredStore { get; set; }
 
-        public virtual NuggetStores PreferredStoreNavigation { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }

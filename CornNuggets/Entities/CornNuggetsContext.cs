@@ -35,7 +35,7 @@ namespace CornNuggets.Entities
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Customer__A4AE64B827162342");
+                    .HasName("PK__Customer__A4AE64B847088744");
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
@@ -44,24 +44,16 @@ namespace CornNuggets.Entities
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.PreferredStore)
+                    .IsRequired()
                     .HasMaxLength(7)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.PreferredStoreNavigation)
-                    .WithMany(p => p.Customers)
-                    .HasPrincipalKey(p => p.StoreName)
-                    .HasForeignKey(d => d.PreferredStore)
-                    .HasConstraintName("FK__Customers__Prefe__5070F446");
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('TEXA001')");
             });
 
             modelBuilder.Entity<NuggetStores>(entity =>
             {
                 entity.HasKey(e => e.StoreId)
-                    .HasName("PK__NuggetSt__3B82F0E17E8E5A87");
-
-                entity.HasIndex(e => e.StoreName)
-                    .HasName("UQ__NuggetSt__520DB652A7A69246")
-                    .IsUnique();
+                    .HasName("PK__NuggetSt__3B82F0E1FF9DC4FB");
 
                 entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
@@ -85,18 +77,18 @@ namespace CornNuggets.Entities
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderLog)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__OrderLog__OrderI__5CD6CB2B");
+                    .HasConstraintName("FK__OrderLog__OrderI__30C33EC3");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderLog)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__OrderLog__Produc__5DCAEF64");
+                    .HasConstraintName("FK__OrderLog__Produc__31B762FC");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
-                    .HasName("PK__Orders__C3905BAF0BD00208");
+                    .HasName("PK__Orders__C3905BAF568E1644");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -111,18 +103,18 @@ namespace CornNuggets.Entities
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Orders__Customer__5AEE82B9");
+                    .HasConstraintName("FK__Orders__Customer__2EDAF651");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StoreId)
-                    .HasConstraintName("FK__Orders__StoreID__59FA5E80");
+                    .HasConstraintName("FK__Orders__StoreID__2DE6D218");
             });
 
             modelBuilder.Entity<Products>(entity =>
             {
                 entity.HasKey(e => e.ProductId)
-                    .HasName("PK__Products__B40CC6ED7280D702");
+                    .HasName("PK__Products__B40CC6ED477B449F");
 
                 entity.Property(e => e.ProductId)
                     .HasColumnName("ProductID")

@@ -7,7 +7,6 @@ namespace CornNuggets.Entities
     {
         public NuggetStores()
         {
-            Customers = new HashSet<Customers>();
             Orders = new HashSet<Orders>();
         }
 
@@ -15,7 +14,6 @@ namespace CornNuggets.Entities
         public string StoreName { get; set; }
         public string StoreLocation { get; set; }
 
-        public virtual ICollection<Customers> Customers { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
     }
 }
