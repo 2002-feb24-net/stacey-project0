@@ -12,7 +12,6 @@ namespace CornNuggets
         */
         static void Main(string[] args)
         {
-            string commStringPath = "/c/Revature/stacey-project0/CornNuggets/Entities/commstring.txt";
             //call start menu for add/search/view/exit options
             Menu start = new Menu();
             Customer patron = new Customer();
