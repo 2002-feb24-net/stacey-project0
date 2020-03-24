@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -27,7 +25,8 @@ namespace CornNuggets.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(SecretConfiguration.CommunicationString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=tcp:2020-training-stacey.database.windows.net,1433;Initial Catalog=CornNuggets;Persist Security Info=False;User ID=stacey;Password=Umbrella123();MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -40,9 +39,13 @@ namespace CornNuggets.Entities
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.LastName).HasMaxLength(50);
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.PreferredStore)
                     .IsRequired()
@@ -143,11 +146,4 @@ namespace CornNuggets.Entities
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
-}
-namespace CornNuggets.Entities
-{
-    internal class SecretConfiguration
-    {
-        internal const string CommunicationString = "Server=tcp:2020-training-stacey.database.windows.net,1433;Initial Catalog=CornNuggets;Persist Security Info=False;User ID=stacey;Password=Umbrella123();MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-    } 
 }
