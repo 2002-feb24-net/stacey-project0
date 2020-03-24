@@ -7,7 +7,7 @@ drop table NuggetStores;
 
 /*create stores table; has a unique name and location string
   naming convention is first four characters of state and 3 digit number*/
-drop table NuggetStores;
+--drop table NuggetStores;
 CREATE TABLE NuggetStores
 (
     StoreID INT primary key identity(1,1),
@@ -17,7 +17,7 @@ CREATE TABLE NuggetStores
 
 
 --create product table; has a unique id, name, price, and inventory value showing how many in stock
-drop table Products;
+--drop table Products;
 CREATE TABLE Products
 (
     ProductID INT primary key,
@@ -28,7 +28,7 @@ CREATE TABLE Products
 
 /*create customer table; has a unique id, first name and last name, preferred store name
   link to store name using foreign key*/
-drop table Customers;
+--drop table Customers;
 CREATE TABLE Customers
 (
     CustomerID INT primary key identity(100000000, 1),
@@ -42,7 +42,7 @@ CREATE TABLE Customers
 /*-create order table; has a unique order number, datetime stamp, store of origin, products in order,
    customer id
 */
-drop table Orders;
+--drop table Orders;
 CREATE TABLE Orders
 (
     OrderID INT primary key identity(1000, 1),
@@ -53,7 +53,7 @@ CREATE TABLE Orders
 );
 
 --create an order log table with products in a particular order; has an order id, product id, and quantity
-drop table OrderLog;
+--drop table OrderLog;
 CREATE TABLE OrderLog
 (
     OrderID INT FOREIGN KEY REFERENCES Orders(OrderID), --link to the order in the orders as a foreign key
@@ -69,6 +69,8 @@ INSERT INTO Customers values ('Eunique', 'Joseph', 'TEXA002');
 INSERT INTO Customers values ('Euri', 'Joseph', 'TEXA002');
 INSERT INTO Customers values ('Euriah', 'Joseph', 'TEXA002');
 INSERT INTO Customers values ('Astrid', 'Ryan', 'SCAR001');
+INSERT INTO Customers values ('Demon', 'Stration', 'TEXA001');
+
 
 
 --insert into NuggetStores; names and location of all stores
@@ -108,7 +110,7 @@ INSERT INTO Products values (336, 'Smoothie', 2.5, 5);
 
 
 
----------------------------------------------------------------------------------------
+-------------------------------Place and Order for a customer in a store of their preference-------------------------------------------
 /*
 --start an order for a customer at their peferred store, timestamped and order total
 **may need to check if result is scalar (no duplicate first and last names)*/
@@ -118,15 +120,15 @@ values
 	GETDATE(), 
 	(Select CustomerID 
 	from Customers 
-	where lastname = 'Joseph'
-	and firstname = 'Stacey') ,
+	where lastname = 'Stration'
+	and firstname = 'Demon') ,
 	(Select StoreID
 	from NuggetStores
 	where StoreName = 
 		(Select PreferredStore
 		from customers
-		where lastname = 'Joseph'
-		and firstname = 'Stacey')),
+		where lastname = 'Stration'
+		and firstname = 'Demon')),
 	(Select ProductPrice
 	from Products
 	where ProductID = 112)
@@ -135,44 +137,66 @@ values
 insert into OrderLog (OrderID, ProductID, SubTotal)
 values((select max(orderID) from Orders where customerID = (Select CustomerID 
 	from Customers 
-	where lastname = 'Joseph'
-	and firstname = 'Stacey')), 112,(Select ProductPrice from Products where ProductID = 112));
---show orders
-select *
-from Orders;
+	where lastname = 'Stration'
+	and firstname = 'Demon')), 112,(Select ProductPrice from Products where ProductID = 112));
+
+----------------------Decrease inventory--------------------------
+update Products
+set Inventory = Inventory - 1
+where ProductID = 112;
+
 ---------------------------------------------------------------------------------------------------
 --update the order total by adding the next product for that order id and customer
 update Orders
 set Total = Total+(Select ProductPrice
 	from Products
-	where ProductID = 223)
+	where ProductID = 334)
 where OrderID = (select max(orderID) from Orders where customerID = (Select CustomerID 
 	from Customers 
-	where lastname = 'Joseph'
-	and firstname = 'Stacey'));
+	where lastname = 'Stration'
+	and firstname = 'Demon'));
 
---show total with initial order and additional item
-select *
-from Orders;
+update Products
+set Inventory = Inventory - 1
+where ProductID = 334;
+-------------------------------------add more items to the order log-----------------------------------------------------------------
 
 --insert the order data into the orderlog for the next item
 insert into OrderLog (OrderID, ProductID, SubTotal)
 values((select max(orderID) from Orders where customerID = (Select CustomerID 
 	from Customers 
-	where lastname = 'Joseph'
-	and firstname = 'Stacey')), 223,(Select ProductPrice from Products where ProductID = 223));
+	where lastname = 'Stration'
+	and firstname = 'Demon')), 334,(Select ProductPrice from Products where ProductID = 334));
 --show the order log
-select *
-from OrderLog;
+
 -----------------------------------------------------------------------------------------------------
 
---Total all the orders in the log for a particular order id that is generated for a customer at their preferred Store
-Select sum(SubTotal) from OrderLog where OrderID = (select max(orderID) from Orders where customerID = (Select CustomerID 
-	from Customers 
-	where lastname = 'Joseph'
-	and firstname = 'Stacey'));
+--Total all the orders in the log for the last order id that is generated for a customer at their preferred Store
+Select sum(SubTotal) as Total 
+	from OrderLog where OrderID = (select max(orderID) from Orders where customerID = (Select CustomerID 
+		from Customers 
+		where lastname = 'Stration'
+		and firstname = 'Demon'));
 
---------------------------------------------------------------------------------------------------------------------------------
+--------------------add a new customer------------------------------------------------------------------------------------
+INSERT INTO Customers values ('Demon', 'Stration', 'TEXA001');
+Select *
+		from Customers 
+		where lastname = 'Stration'
+		and firstname = 'Demon';
+
+--------------------------------Customer's Order History--------------------------------
+
+select *
+from orders as o
+inner join customers as c
+on o.customerID = c.customerID
+and c.CustomerID = 100000006;
+-----------------------------------------------------------------------------------------
+
+
+
+
 
 insert into OrderLog (OrderID, ProductID, SubTotal)
 values(1001, 222,(Select ProductPrice
@@ -208,23 +232,26 @@ from OrderLog
 where orderid = 1003;
 
 --show customer id and preferred store
-select customerID
+select PreferredStore, FirstName, Lastname 
 from Customers
 where firstname = 'Stacey'
-and lastname = 'Joseph'
+and lastname = 'Joseph';
 
 
 
 --select product where inventory less than desired amount. Alert for low inventory.
 SELECT *
 FROM Products
-WHERE Inventory <= 10;
+WHERE Inventory <= 20;
 
---get the customer id by first and last name
-Select CustomerID
+------------------search customer by first and last name------------------------------------
+Select *
 from Customers
 where lastname = 'Stration'
 and firstname = 'Demon';
+
+
+
 
 
 --get the price of an item based on the product id
@@ -248,28 +275,43 @@ where orderid = 1008;
 select max(orderID)
 from Orders
 where customerID = 100000000;
---------------------------------------------------------------------------------------
+-----------------------------------------------Joins ---------------------------------------
 --Left join of customers and orders
 select *
 from orders as o
-left join customers as c
-on o.customerID = c.customerID;
+inner join customers as c
+on o.customerID = c.customerID
+and c.CustomerID = 100000006;
 
---join order log and orders
-select *
-from orderlog as ol
-left join orders as o
-on ol.orderID = o.orderID
-order by o.orderid;
+
+
+
+
+
+-------------------------------display details of an order----------------------------------
+select ol.OrderID, ol.SubTotal, ol.ProductID, o.DateTimeStamp, c.firstname, c.lastname
+from Customers as c, orderlog as ol, orders as o
+where ol.orderID = o.orderID
+and c.CustomerID = o.CustomerID
+and ol.orderid = 1001 
+order by ol.ProductID;
+
+
+-------------------------display history by store------------------------------------------------
+
+SELECT *
+FROM Orders
+where StoreID = 1;
+
+
+
 
 --------------------------------------------------------create a procedure--------------------------------------------------
 
 
 
 --select orders by store
-/*SELECT *
-FROM Orders
-GROUP BY StoreID;
+/*
 
 
 --select orders by customer

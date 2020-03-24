@@ -6,16 +6,15 @@ namespace CornNuggets
 {
     class Customer
     {
-        /*Stacey Joseph, Revature, Project 0
-         * Store Implementation
-         * C:\Revature\stacey-project0\CornNuggets\Customer.cs
-        */
-        public int customerID;
-        public string CustName { get; set; }
-        static List<string> cust = new List<string>() {"First Customer"};
+        public string CustName { get => custName; set => custName = value; }
+        public int CustomerID { get; set; }
+
+        static List<string> cust = new List<string>() { "First Customer" };
+        private string custName;
+
         public Customer()
         {
-            customerID++;
+            CustomerID++;
         }
 
         public void AddCustomer(string next)
@@ -29,7 +28,7 @@ namespace CornNuggets
                 cust.Add(next);
                 System.Console.WriteLine($"Added customer: {next}");
             }
-        } 
+        }
         public bool isCustomer(string name)
         {
             if (cust.Contains(name))
@@ -42,13 +41,13 @@ namespace CornNuggets
                 //Console.WriteLine("No Match Found");
                 return false;
             }
-            
+
         }
         public void DisplayCustomers()
         {
             foreach (string name in cust)
             {
-                Console.WriteLine($"{customerID++} {name}");
+                Console.WriteLine($"{CustomerID++} {name}");
             }
         }
     }

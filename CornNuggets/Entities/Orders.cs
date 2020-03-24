@@ -14,7 +14,7 @@ namespace CornNuggets.Entities
         public DateTime? DateTimeStamp { get; set; }
         public int? StoreId { get; set; }
         public int? CustomerId { get; set; }
-        public decimal? Total { get; set; }
+        public decimal Total { get; set; }
 
         public virtual Customers Customer { get; set; }
         public virtual NuggetStores Store { get; set; }

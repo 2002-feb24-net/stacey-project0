@@ -1,5 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CornNuggets.Entities;
 
 
 namespace CornNuggets
@@ -12,6 +18,37 @@ namespace CornNuggets
         */
         static void Main(string[] args)
         {
+            //set up the connection to the sql server
+            string connStr = "Server=tcp:2020-training-stacey.database.windows.net,1433;Initial Catalog=CornNuggets;Persist Security Info=False;User ID=stacey;Password=Umbrella123();MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            /*using
+            (SqlConnection sqlConn = new SqlConnection(connStr))
+            {
+                SqlCommand command = new SqlCommand("Select * from Orders", sqlConn);
+                command.Connection.Open();
+                command.ExecuteNonQuery();
+
+            }
+            */
+            using 
+            (SqlDataAdapter sqlda = new SqlDataAdapter("Select Firstname, Lastname, PreferredStore from Customers", connStr))
+                {
+                    DataTable dtbl = new DataTable();
+                    sqlda.Fill(dtbl);
+                    foreach(DataRow row in dtbl.Rows)
+                    {
+                    Console.Write(row["FirstName"]);
+                    Console.Write("  ");
+                    Console.Write(row["LastName"]);
+                    Console.Write("  ");
+                    Console.Write(row["PreferredStore"]);
+                    Console.WriteLine();
+
+                    }
+                    //Console.ReadKey();
+                }
+              
+              
+            
             //call start menu for add/search/view/exit options
             Menu start = new Menu();
             Customer patron = new Customer();
@@ -161,6 +198,13 @@ namespace CornNuggets
                         start.ShowMainMenu();
                         break;
                     }
+                    case "e":
+                    {
+                        //exit the loop 
+                        start.ShowNavMenu();
+                        System.Environment.Exit(0);
+                        break;
+                    }
                 }
                 option = start.GetInput("Enter the letter of your choice ");
             }while (option != "e");
@@ -175,6 +219,17 @@ namespace CornNuggets
             string input = Console.ReadLine();
             return input;
 
+        }
+        
+        static DataSet DataSetSelectRows(DataSet dataset, string connectionString, string queryString)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.SelectCommand = new SqlCommand("", connection);
+                adapter.Fill(dataset);
+                return dataset;
+            }
         }
     }
 }

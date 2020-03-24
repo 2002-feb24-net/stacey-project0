@@ -10,32 +10,33 @@ namespace CornNuggets
          * C:\Revature\stacey-project0\CornNuggets\Order.cs
         */
 
-        public int ordID = 1000;
-            public DateTime timeStamp;
-            public Store storeName = new Store();
-            public Customer custName = new Customer();
-            public Product items = new Product("Demo", 100, 1.0);
+        private int ordID = 1000;
+        private DateTime timeStamp;
+        private Store storeName = new Store();
+        private Customer custName = new Customer();
+        public Product items = new Product("Demo", 100, 1.0);
             public double Total { get; set; }
-        
-        
-
+        public int OrdID { get => ordID; set => ordID = value; }
+        public DateTime TimeStamp { get => timeStamp; set => timeStamp = value; }
+        internal Store StoreName { get => storeName; set => storeName = value; }
+        internal Customer CustName { get => custName; set => custName = value; }
 
         public Order()
         {
-            timeStamp = DateTime.Now;
+            TimeStamp = DateTime.Now;
 
             
         }
         
         public int TakeOrder(string cust, string store, int prod)
         {
-            timeStamp = DateTime.Now;
-            ordID++;
+            TimeStamp = DateTime.Now;
+            OrdID++;
             items.BuyProduct(prod);
-            storeName.Name = store;
-            custName.CustName = cust;
+            StoreName.Name = store;
+            CustName.CustName = cust;
             Total += items.Price;
-            return ordID;
+            return OrdID;
         }
         public void SearchOrder(int id)
         {
@@ -51,7 +52,7 @@ namespace CornNuggets
         }
         public void DisplayOrder()
         {
-            Console.WriteLine($"{timeStamp}, {ordID}, {storeName.Name}, {custName.CustName}, {Total}");
+            Console.WriteLine($"{TimeStamp}, {OrdID}, {StoreName.Name}, {CustName.CustName}, {Total}");
 
         }
     }
