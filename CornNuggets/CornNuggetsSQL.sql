@@ -242,7 +242,8 @@ and lastname = 'Joseph';
 --select product where inventory less than desired amount. Alert for low inventory.
 SELECT *
 FROM Products
-WHERE Inventory <= 20;
+WHERE Inventory <= 20
+and ProductID = 113;
 
 ------------------search customer by first and last name------------------------------------
 Select *
