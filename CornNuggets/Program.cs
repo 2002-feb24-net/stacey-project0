@@ -29,28 +29,32 @@ namespace CornNuggets
 
             }
             */
-            /*
+            //Select * from Orders where StoreID=1
 
 
             using 
-            (SqlDataAdapter sqlda = new SqlDataAdapter("Select Firstname, Lastname, PreferredStore from Customers", connStr))
+            (SqlDataAdapter sqlda = new SqlDataAdapter("dbo.spOrders_GetAllByStore 1", connStr.GetConnString()))
                 {
                     DataTable dtbl = new DataTable();
                     sqlda.Fill(dtbl);
                     foreach(DataRow row in dtbl.Rows)
                     {
-                    Console.Write(row["FirstName"]);
+                    Console.Write(row["OrderID"]);
                     Console.Write("  ");
-                    Console.Write(row["LastName"]);
+                    Console.Write(row["DateTimeStamp"]);
                     Console.Write("  ");
-                    Console.Write(row["PreferredStore"]);
+                    Console.Write(row["OrderID"]);
+                    Console.Write("  ");
+                    Console.Write(row["StoreID"]);
+                    Console.Write("  ");
+                    Console.Write(row["Total"]);
                     Console.WriteLine();
 
                     }
                     //Console.ReadKey();
                 }
               
-              */
+              
             
             
             //call start menu for add/search/view/exit options
@@ -214,8 +218,6 @@ namespace CornNuggets
                 }
                 option = start.GetInput(" ");
             }while (option != "e");
-            
-
 
         }
         static string GetInput(string message)

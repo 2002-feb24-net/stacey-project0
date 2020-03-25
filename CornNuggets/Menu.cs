@@ -42,7 +42,7 @@ namespace CornNuggets
         }
         public void ShowOrdersBanner()
         {
-            Console.WriteLine("Date/Time             |   Order Num  |  Store  |   Customer    |   Total");
+            Console.WriteLine("Order Num  |  Date/Time  |  Store   | Total");
         } 
 
     }

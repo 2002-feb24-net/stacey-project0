@@ -1,5 +1,11 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CornNuggets;
 
 namespace CornNuggets
 {
@@ -9,13 +15,12 @@ namespace CornNuggets
          * Store Implementation
          * C:\Revature\stacey-project0\CornNuggets\Order.cs
         */
-
+        SecretConfig connStr = new SecretConfig();
         private int ordID = 1000;
         private DateTime timeStamp;
         private Store storeName = new Store();
         private Customer custName = new Customer();
-        public Product items = new Product("Demo", 100, 1.0);
-            public double Total { get; set; }
+        public double Total { get; set; }
         public int OrdID { get => ordID; set => ordID = value; }
         public DateTime TimeStamp { get => timeStamp; set => timeStamp = value; }
         internal Store StoreName { get => storeName; set => storeName = value; }
@@ -31,11 +36,8 @@ namespace CornNuggets
         public int TakeOrder(string cust, string store, int prod)
         {
             TimeStamp = DateTime.Now;
-            OrdID++;
-            items.BuyProduct(prod);
             StoreName.Name = store;
             CustName.CustName = cust;
-            Total += items.Price;
             return OrdID;
         }
         public void SearchOrder(int id)
@@ -52,7 +54,27 @@ namespace CornNuggets
         }
         public void DisplayOrder()
         {
-            Console.WriteLine($"{TimeStamp}, {OrdID}, {StoreName.Name}, {CustName.CustName}, {Total}");
+            using 
+            (SqlDataAdapter sqlda = new SqlDataAdapter("dbo.spOrders_GetAllByStore 1", connStr.GetConnString()))
+                {
+                    DataTable dtbl = new DataTable();
+                    sqlda.Fill(dtbl);
+                    foreach(DataRow row in dtbl.Rows)
+                    {
+                    Console.Write(row["OrderID"]);
+                    Console.Write("  ");
+                    Console.Write(row["DateTimeStamp"]);
+                    Console.Write("  ");
+                    Console.Write(row["OrderID"]);
+                    Console.Write("  ");
+                    Console.Write(row["StoreID"]);
+                    Console.Write("  ");
+                    Console.Write(row["Total"]);
+                    Console.WriteLine();
+
+                    }
+                    //Console.ReadKey();
+                }
 
         }
     }

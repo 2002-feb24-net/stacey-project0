@@ -15,68 +15,14 @@ namespace CornNuggets
         public string Name { get; set; }
         public int ProdID { get; set; }
         public double Price { get; set; }
-        /*public enum itemCodes
-        {
-            Habenero = 111,
-            Nacho =112,
-            Blue = 113,
-            Tomato = 114,
-            Salsa = 222,
-            Avocado = 223, 
-            Onion = 224,
-            Cheese  = 25,
-            Fizzy = 333,
-            Tea = 334,
-            Juice = 335,
-            Smoothie = 336
-
-        }*/
+        
         List<int> prods = new List<int>();
         List<string> prodNames = new List<string>();
         List<double> prices = new List<double>();
 
         public Product()
         {
-            //add product numbers
-            prods.Add(112);
-            prods.Add(113);
-            prods.Add(114);
-            prods.Add(115);
-            prods.Add(222);
-            prods.Add(223);
-            prods.Add(224);
-            prods.Add(225);
-            prods.Add(333);
-            prods.Add(334);
-            prods.Add(335);
-            prods.Add(336);
-            //product name list
-            prodNames.Add("Habenero");
-            prodNames.Add("Nacho");
-            prodNames.Add("Blue");
-            prodNames.Add("Tomato");
-            prodNames.Add("Salsa");
-            prodNames.Add("Avocado");
-            prodNames.Add("Onion");
-            prodNames.Add("Cheese");
-            prodNames.Add("Fizzy");
-            prodNames.Add("Tea");
-            prodNames.Add("Juice");
-            prodNames.Add("Smoothie");
-            //price list
-            prices.Add(4.0);
-            prices.Add(4.0);
-            prices.Add(4.0);
-            prices.Add(4.0);
-            prices.Add(1.0);
-            prices.Add(1.0);
-            prices.Add(1.0);
-            prices.Add(1.0);
-            prices.Add(2.0);
-            prices.Add(2.0);
-            prices.Add(2.0);
-            prices.Add(2.0);
-
+            
 
         }
         public Product(string name, int id, double price)
