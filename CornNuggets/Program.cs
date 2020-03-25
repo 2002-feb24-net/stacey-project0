@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CornNuggets.Entities;
+using CornNuggets;
 
 
 namespace CornNuggets
@@ -19,7 +19,7 @@ namespace CornNuggets
         static void Main(string[] args)
         {
             //set up the connection to the sql server
-            string connStr = "Server=tcp:2020-training-stacey.database.windows.net,1433;Initial Catalog=CornNuggets;Persist Security Info=False;User ID=stacey;Password=Umbrella123();MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            SecretConfig connStr = new SecretConfig();
             /*using
             (SqlConnection sqlConn = new SqlConnection(connStr))
             {
@@ -29,6 +29,9 @@ namespace CornNuggets
 
             }
             */
+            /*
+
+
             using 
             (SqlDataAdapter sqlda = new SqlDataAdapter("Select Firstname, Lastname, PreferredStore from Customers", connStr))
                 {
@@ -47,7 +50,42 @@ namespace CornNuggets
                     //Console.ReadKey();
                 }
               
-              
+              */
+            SqlConnection conn = new SqlConnection(connStr.GetConnString());
+            
+            SqlCommand cmd = new SqlCommand("dbo.spCustomers_AddNew", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlParameter param1 =  new SqlParameter();
+            SqlParameter param2 =  new SqlParameter();
+            SqlParameter param3 =  new SqlParameter();
+            param1 = cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50);
+            param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
+            param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
+
+            param1.Direction = ParameterDirection.Input;
+            param2.Direction = ParameterDirection.Input;
+            param3.Direction = ParameterDirection.Input;
+
+            param1.Value = "New";
+            param2.Value = "Customer";
+            param3.Value = "TEXA001";
+
+            
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Console.Write(reader[0].ToString());
+                Console.Write(" ");
+                Console.Write(reader[1].ToString());
+                Console.Write(" ");
+                Console.WriteLine(reader[2].ToString());
+            }
+            Console.Read();
+
+            //Close reader and connection
+            reader.Close();
+            conn.Close();
             
             //call start menu for add/search/view/exit options
             Menu start = new Menu();
@@ -221,15 +259,7 @@ namespace CornNuggets
 
         }
         
-        static DataSet DataSetSelectRows(DataSet dataset, string connectionString, string queryString)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.SelectCommand = new SqlCommand("", connection);
-                adapter.Fill(dataset);
-                return dataset;
-            }
-        }
     }
+
+    
 }
