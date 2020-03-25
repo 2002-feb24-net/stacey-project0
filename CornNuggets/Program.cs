@@ -51,41 +51,7 @@ namespace CornNuggets
                 }
               
               */
-            SqlConnection conn = new SqlConnection(connStr.GetConnString());
             
-            SqlCommand cmd = new SqlCommand("dbo.spCustomers_AddNew", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlParameter param1 =  new SqlParameter();
-            SqlParameter param2 =  new SqlParameter();
-            SqlParameter param3 =  new SqlParameter();
-            param1 = cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50);
-            param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
-            param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
-
-            param1.Direction = ParameterDirection.Input;
-            param2.Direction = ParameterDirection.Input;
-            param3.Direction = ParameterDirection.Input;
-
-            param1.Value = "New";
-            param2.Value = "Customer";
-            param3.Value = "TEXA001";
-
-            
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Console.Write(reader[0].ToString());
-                Console.Write(" ");
-                Console.Write(reader[1].ToString());
-                Console.Write(" ");
-                Console.WriteLine(reader[2].ToString());
-            }
-            Console.Read();
-
-            //Close reader and connection
-            reader.Close();
-            conn.Close();
             
             //call start menu for add/search/view/exit options
             Menu start = new Menu();
@@ -161,8 +127,10 @@ namespace CornNuggets
                     case "m":
                     {
                         //add new customer
-                        string name = start.GetInput("Enter the new customer's name");
-                        patron.AddCustomer(name);
+                        string fname = start.GetInput("Enter the new customer's first name");
+                        string lname = start.GetInput("Enter the new customer's last name");
+                        string pstore = start.GetInput("Enter the new customer's Preferred Store");
+                        patron.AddCustomer(fname, lname, pstore);
                         start.ShowMainMenu();
                         break;
                     }
@@ -244,7 +212,7 @@ namespace CornNuggets
                         break;
                     }
                 }
-                option = start.GetInput("Enter the letter of your choice ");
+                option = start.GetInput(" ");
             }while (option != "e");
             
 

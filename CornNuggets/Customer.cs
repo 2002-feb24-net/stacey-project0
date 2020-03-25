@@ -1,5 +1,11 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CornNuggets;
 
 
 namespace CornNuggets
@@ -11,23 +17,51 @@ namespace CornNuggets
 
         static List<string> cust = new List<string>() { "First Customer" };
         private string custName;
+        SecretConfig code = new SecretConfig();
 
         public Customer()
         {
             CustomerID++;
         }
 
-        public void AddCustomer(string next)
+        public void AddCustomer(string firstName, string lastName, string storeName)
         {
-            if (isCustomer(next))
+
+            SqlConnection conn = new SqlConnection(code.GetConnString());
+            
+            SqlCommand cmd = new SqlCommand("dbo.spCustomers_AddNew", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlParameter param1 =  new SqlParameter();
+            SqlParameter param2 =  new SqlParameter();
+            SqlParameter param3 =  new SqlParameter();
+            param1 = cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50);
+            param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
+            param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
+
+            param1.Direction = ParameterDirection.Input;
+            param2.Direction = ParameterDirection.Input;
+            param3.Direction = ParameterDirection.Input;
+
+            param1.Value = firstName;
+            param2.Value = lastName;
+            param3.Value = storeName;
+
+            
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                System.Console.WriteLine("Customer already exist!");
+                Console.Write(reader[0].ToString());
+                Console.Write(" ");
+                Console.Write(reader[1].ToString());
+                Console.Write(" ");
+                Console.WriteLine(reader[2].ToString());
             }
-            else
-            {
-                cust.Add(next);
-                System.Console.WriteLine($"Added customer: {next}");
-            }
+            Console.Read();
+
+            //Close reader and connection
+            reader.Close();
+            conn.Close();
         }
         public bool isCustomer(string name)
         {
