@@ -31,7 +31,7 @@ namespace CornNuggets
 
         public void ShowAddMenu() => Console.WriteLine("\nAdd options: n - new order, m - new customer, w - new location, b - back ");
         public void ShowSearchMenu()=> Console.WriteLine("\nSearch options: c - Customer, l - location, o - order, b - back");
-        public void ShowViewMenu() => Console.WriteLine("\nView options: r - orders, u - customers, t - locations, b - back");
+        public void ShowViewMenu() => Console.WriteLine("\nView options: r - store orders, u - all customers, t - customer order history, d - order details");
         public void ShowNavMenu() => Console.WriteLine($"\n************Thank you for Choosing Corn Nuggets!************");
         public void ShowProductMenu()
         {
