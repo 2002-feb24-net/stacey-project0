@@ -60,58 +60,27 @@ namespace CornNuggets
             do
             {
                 option = start.GetInput($"Enter your menu choice {fname}: ");
+
                 if (option =="t"){ProcessMenuSelectionT(option);}
+                else if (option == "m")
+                {
+                    
+                    string firstName = start.GetInput("Enter the new customer's first name");
+                    string lastName = start.GetInput("Enter the new customer's first name");
+                    start.ShowStores();
+                    string storeName = start.GetInput("Enter the new customer's perferred store name");
+                    
+                    patron.AddCustomer(firstName, lastName, storeName);
+                }
                 else if (option == "u"){ProcessMenuSelectionU(option);}
+                else if (option == "r"){ProcessMenuSelectionR(option);}
+                else if (option == "d"){ProcessMenuSelectionD(option);}
             }while(option!="e");
             
             Environment.Exit(0);
-            string result;
-
-            SqlConnection conn = new SqlConnection(connStr.GetConnString());
-            if (option == "t")//display all order history of a customer
-            { 
-                result = "dbo.spCustomers_DisplayOrdersByID";
-            }
-            else if (option == "u"){ result = "dbo.spCustomer_GetByFullName";}
-            else if (option == "n"){result = "dbo.spOrders_PlaceToStoreForCustomer";}
-            else if (option == "r"){result = "dbo.spOrders_GetAllByStore";}
-            else if (option == "d"){result = "dbo.spOrders_GetDetails"; }
-            else  {return;}
-            SqlCommand cmd = new SqlCommand(result, conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-
-            SqlParameter param1 =  new SqlParameter();
-            SqlParameter param2 =  new SqlParameter();
-            SqlParameter param3 =  new SqlParameter();
-            param1 = cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50);
-            param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
-            param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
-
-            param1.Direction = ParameterDirection.Input;
-            param2.Direction = ParameterDirection.Input;
-            param3.Direction = ParameterDirection.Input;
-
-            //param1.Value = custID;
-            //param2.Value = items[1];
-            //param3.Value = items[2];
+            //string result;
 
             
-            conn.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Console.Write(reader[0].ToString());
-                Console.Write(" ");
-                Console.Write(reader[1].ToString());
-                Console.Write(" ");
-                Console.WriteLine(reader[2].ToString());
-            }
-            //Console.Read();
-
-            //Close reader and connection
-            reader.Close();
-            conn.Close();
 
             do
             {
@@ -207,15 +176,7 @@ namespace CornNuggets
                     {
                         //search for store location by name
                         string name = start.GetInput("Please enter the store name");
-                        bool valid = location.isStore(name);
-                        if (valid)
-                        {
-                            Console.WriteLine("Store Location found");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Location does not exist. Please add store.");
-                        }
+                       
                         start.ShowMainMenu();
                         break;
                     }
@@ -296,6 +257,7 @@ namespace CornNuggets
             //open the connection and read the results           
             conn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
+            Console.WriteLine("");
             while (reader.Read())
             {
                 Console.Write(reader[0].ToString());
@@ -352,11 +314,10 @@ namespace CornNuggets
                 Console.Write(reader[0].ToString());
                 Console.Write("     ");    
                 Console.Write(reader[1].ToString());
-                Console.Write("            ");
+                Console.Write("      ");
                 Console.Write(reader[2].ToString());
                 Console.Write("      ");
-                Console.WriteLine(reader[3].ToString());
-                
+                Console.WriteLine(reader[3].ToString());   
             }
             //Console.Read();
 
@@ -367,11 +328,56 @@ namespace CornNuggets
         static void ProcessMenuSelectionR(string selection)
         {
             string result;
+            int storeID;
+                        
+            SecretConfig connStr = new SecretConfig();
+            SqlConnection conn = new SqlConnection(connStr.GetConnString());
+            
+            storeID = int.Parse(GetInput("Please enter the store number"));
+            result = "dbo.spOrders_GetAllByStore";
+
+            //display all store orders
+            
+            SqlCommand cmd = new SqlCommand(result, conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlParameter param1 =  new SqlParameter();
+                        
+            param1 = cmd.Parameters.Add("@StoreID", SqlDbType.Int);
+            
+            param1.Direction = ParameterDirection.Input;
+            
+            param1.Value = storeID;
+                        
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            Console.WriteLine();
+            Console.WriteLine("Order ID | Date/Time Stamp | Customer ID | Total ");
+            while (reader.Read())
+            {
+                Console.Write(reader[0].ToString());
+                Console.Write("     ");    
+                Console.Write(reader[1].ToString());
+                Console.Write("      ");
+                Console.Write(reader[2].ToString());
+                Console.Write("      ");
+                Console.WriteLine(reader[3].ToString());
+                Console.WriteLine("      ");
+                
+            }
+            //Console.Read();
+
+            //Close reader and connection
+            reader.Close();
+            conn.Close();
+        }
+        static void ProcessMenuSelectionD(string selection)
+        {
+            string result;
             //int prodQty;
             //int storeID;
-            //int orderID;
-            string firstName = GetInput("Please enter the customer's firstname");
-            string lastName = GetInput("Please enter the customer's lastname");
+            int orderID;
+            
+            orderID = int.Parse(GetInput("Please enter the order number"));
             //int custID;
             //custID = int.Parse(GetInput("Please enter your customer ID: "));
             SecretConfig connStr = new SecretConfig();
@@ -384,48 +390,124 @@ namespace CornNuggets
                 
             }
             else if (selection == "n"){result = "dbo.spOrders_PlaceToStoreForCustomer";}//create order
-            else if (selection == "r"){result = "dbo.spOrders_GetAllByStore";}//display all store orders
+            else if (selection == "r")
+            {
+                orderID = int.Parse(GetInput("Please enter the store number"));
+                result = "dbo.spOrders_GetAllByStore";
+
+            }//display all store orders
             else if (selection == "d"){result = "dbo.spOrders_GetDetails"; }//display order details
             else  {return;}
             SqlCommand cmd = new SqlCommand(result, conn);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlParameter param1 =  new SqlParameter();
-            SqlParameter param2 =  new SqlParameter();
+            //SqlParameter param2 =  new SqlParameter();
             //SqlParameter param3 =  new SqlParameter();
             //SqlParameter param4 =  new SqlParameter();
-            param1 = cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50);
-            param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
+            param1 = cmd.Parameters.Add("@orderID", SqlDbType.Int);
+            //param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
             //param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
             //param4 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
 
             param1.Direction = ParameterDirection.Input;
-            param2.Direction = ParameterDirection.Input;
+            //param2.Direction = ParameterDirection.Input;
             //param3.Direction = ParameterDirection.Input;
             //param4.Direction = ParameterDirection.Input;
 
-            param1.Value = firstName;
-            param2.Value = lastName;
+            param1.Value = orderID;
+            //param2.Value = lastName;
             //param3.Value = items[2];
 
             
             conn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             Console.WriteLine();
-            Console.WriteLine("Customer ID | Perferred Store | First Name | Last Name ");
+            Console.WriteLine("Order ID |  SubTotal | Prod ID | Date/Time Stamp ");
             while (reader.Read())
             {
                 Console.Write(reader[0].ToString());
                 Console.Write("     ");    
                 Console.Write(reader[1].ToString());
-                Console.Write("            ");
+                Console.Write("      ");
                 Console.Write(reader[2].ToString());
                 Console.Write("      ");
                 Console.WriteLine(reader[3].ToString());
+                Console.WriteLine("     ");
+                
+            }
+            //Console.Read();
+
+            //Close reader and connection
+            reader.Close();
+            conn.Close();
+        }
+        static void ProcessMenuSelectionN(string selection)
+        {
+            string result;
+            //int prodQty;
+            //int storeID;
+            int orderID;
+            
+            orderID = int.Parse(GetInput("Please enter the order number"));
+            //int custID;
+            //custID = int.Parse(GetInput("Please enter your customer ID: "));
+            SecretConfig connStr = new SecretConfig();
+            SqlConnection conn = new SqlConnection(connStr.GetConnString());
+            if (selection == "t"){result = "dbo.spCustomers_DisplayOrdersByID"; }//customer order history
+            else if (selection == "m"){result = "dbo.spCustomers_AddNew";}//add new customer
+            else if (selection == "u")
+            {
+                result = "dbo.spCustomer_GetByFullName";//search customer by name
+                
+            }
+            else if (selection == "n"){result = "dbo.spOrders_PlaceToStoreForCustomer";}//create order
+            else if (selection == "r")
+            {
+                orderID = int.Parse(GetInput("Please enter the store number"));
+                result = "dbo.spOrders_GetAllByStore";
+
+            }//display all store orders
+            else if (selection == "d"){result = "dbo.spOrders_GetDetails"; }//display order details
+            else  {return;}
+            SqlCommand cmd = new SqlCommand(result, conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlParameter param1 =  new SqlParameter();
+            //SqlParameter param2 =  new SqlParameter();
+            //SqlParameter param3 =  new SqlParameter();
+            //SqlParameter param4 =  new SqlParameter();
+            param1 = cmd.Parameters.Add("@orderID", SqlDbType.Int);
+            //param2 = cmd.Parameters.Add("@LastName",SqlDbType.NVarChar, 50);
+            //param3 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
+            //param4 = cmd.Parameters.Add("@PreferredStore",SqlDbType.NVarChar, 7);
+
+            param1.Direction = ParameterDirection.Input;
+            //param2.Direction = ParameterDirection.Input;
+            //param3.Direction = ParameterDirection.Input;
+            //param4.Direction = ParameterDirection.Input;
+
+            param1.Value = orderID;
+            //param2.Value = lastName;
+            //param3.Value = items[2];
+
+            
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            Console.WriteLine();
+            Console.WriteLine("Order ID | Date/Time Stamp | Customer ID | Total ");
+            while (reader.Read())
+            {
+                Console.Write(reader[0].ToString());
+                Console.Write("     ");    
+                Console.Write(reader[1].ToString());
+                Console.Write("      ");
+                Console.Write(reader[2].ToString());
+                Console.Write("      ");
+                Console.WriteLine(reader[3].ToString());
+                Console.WriteLine("      ");
+                //Console.Write(reader[4].ToString());
+                //Console.WriteLine("      ");
+                /*Console.WriteLine(reader[5].ToString());
                 /*Console.Write(" ");
-                Console.Write(reader[4].ToString());
-                Console.Write(" ");
-                Console.Write(reader[5].ToString());
-                Console.Write(" ");
                 Console.WriteLine(reader[6].ToString());*/
             }
             //Console.Read();
