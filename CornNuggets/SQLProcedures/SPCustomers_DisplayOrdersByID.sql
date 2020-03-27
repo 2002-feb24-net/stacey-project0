@@ -13,7 +13,7 @@ GO
 ALTER PROCEDURE dbo.spCustomers_DisplayOrdersByID
 (
     -- Add the parameters for the stored procedure here
-	@CustomerID int = 100000006
+	@CustomerID int = 100000001
 )
 AS
 BEGIN
@@ -22,7 +22,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    select o.OrderID, o.DateTimeStamp, o.Total, c.PreferredStore, c.FirstName, c.LastName
+    select o.OrderID, o.DateTimeStamp, o.Total, o.storeID, c.PreferredStore, c.FirstName, c.LastName
 	from orders as o
 	inner join customers as c
 	on o.customerID = c.customerID

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
-
+using System.Data;
+using System.Data.SqlClient;
 
 namespace CornNuggets
 {
@@ -12,7 +13,7 @@ namespace CornNuggets
         */
         string Choice {get; set;}
         static List<string> selection = new List<string>() {"a", "s","v","e","b"};
-
+        SecretConfig code = new SecretConfig();
         public Menu()
         {
             ShowBanner();
@@ -29,9 +30,9 @@ namespace CornNuggets
         public void ShowBanner() => Console.WriteLine($"***************** Welcome to Corn Nuggets!*****************");
         public void ShowBanner(string menu) => Console.WriteLine($"\n*****************Corn Nuggets {menu} Menu*****************");
 
-        public void ShowAddMenu() => Console.WriteLine("\nAdd options: n - new order, m - new customer, w - new location, b - back ");
-        public void ShowSearchMenu()=> Console.WriteLine("\nSearch options: c - Customer, l - location, o - order, b - back");
-        public void ShowViewMenu() => Console.WriteLine("\nView options: r - store orders, u - all customers, t - customer order history, d - order details");
+        public void ShowAddMenu() => Console.WriteLine("\nAdd options: n - new order, m - new customer, w - new location ");
+        public void ShowSearchMenu()=> Console.WriteLine("\nSearch options: u - Customer, l - location, o - order, d - order details");
+        public void ShowViewMenu() => Console.WriteLine("\nView options: r - store orders, c - all customers, t - customer order history,  e - EXIT");
         public void ShowNavMenu() => Console.WriteLine($"\n************Thank you for Choosing Corn Nuggets!************");
         public void ShowProductMenu()
         {
@@ -43,7 +44,25 @@ namespace CornNuggets
         public void ShowOrdersBanner()
         {
             Console.WriteLine("Order Num  |  Date/Time  |  Store   | Total");
-        } 
+        }
 
+        internal void ShowStores()
+        {
+             using 
+            (SqlDataAdapter sqlda = new SqlDataAdapter("select * from NuggetStores", code.GetConnString()))
+                {
+                    DataTable dtbl = new DataTable();
+                    sqlda.Fill(dtbl);
+                    foreach(DataRow row in dtbl.Rows)
+                    {
+                    Console.Write(row["StoreID"]);
+                    Console.Write("  ");
+                    Console.Write(row["StoreName"]);
+                    Console.WriteLine();
+
+                    }
+                    //Console.ReadKey();
+                }
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace CornNuggets
                 Console.Write(" ");
                 Console.WriteLine(reader[2].ToString());
             }
-            Console.Read();
+            //Console.Read();
 
             //Close reader and connection
             reader.Close();
@@ -80,7 +80,7 @@ namespace CornNuggets
         {
             SecretConfig connStr = new SecretConfig();
             using 
-            (SqlDataAdapter sqlda = new SqlDataAdapter("dbo.spOrders_GetAllByStore 1", connStr.GetConnString()))
+            (SqlDataAdapter sqlda = new SqlDataAdapter("dbo.spCustomers_DisplayOrdersByID", connStr.GetConnString()))
                 {
                     DataTable dtbl = new DataTable();
                     sqlda.Fill(dtbl);
@@ -106,7 +106,7 @@ namespace CornNuggets
         {
              SqlConnection conn = new SqlConnection(code.GetConnString());
             
-            SqlCommand cmd = new SqlCommand("dbo.spCustomers_AddNew", conn);
+            SqlCommand cmd = new SqlCommand($"select * customers", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlParameter param1 =  new SqlParameter();
             SqlParameter param2 =  new SqlParameter();
