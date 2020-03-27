@@ -13,7 +13,8 @@ GO
 ALTER PROCEDURE spOrders_AddToOrder
 (
     -- Add the parameters for the stored procedure here
-    @prodID int = 111,
+    @orderID int = 1024,
+	@prodID int = 111,
     @ProdQty int = 1,
 	@customerID int = 100000006
 )
@@ -26,23 +27,18 @@ BEGIN
     -- Insert statements for procedure here
     --insert the order data into the orderlog for the next item
 	insert into OrderLog (OrderID, ProductID, SubTotal)
-	values((select max(orderID) from Orders where customerID = @customerID), 
-	@prodID,(Select ProductPrice from Products where ProductID = @prodID)*@ProdQty);
+	values(@orderID, 
+	@prodID,(Select ProductPrice from Products where ProductID = @prodID )*@ProdQty);
 	--update the order log
 	update Products
 	set Inventory = Inventory - 1
 	where ProductID = @prodID;
 
 	-----------------------------------------------------------------------------------------------------
-
+	select max(orderID)
+	from Orders
+	where customerID = 100000006;
 	
 
-	--order details
-	select ol.OrderID, ol.SubTotal, ol.ProductID, o.DateTimeStamp, c.PreferredStore, c.FirstName, c.LastName
-	from Customers as c, orderlog as ol, orders as o
-	where ol.orderID = o.orderID
-	and c.CustomerID = o.CustomerID
-	and ol.orderid = (select max(orderID) from Orders where customerID = @customerID)
-	order by ol.ProductID;
 END
 GO

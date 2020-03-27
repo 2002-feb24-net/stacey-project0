@@ -13,7 +13,7 @@ GO
 ALTER PROCEDURE dbo.spOrders_GetDetails
 (
     -- Add the parameters for the stored procedure here
-    @orderID int = 1001
+    @orderID int = 1024
   
 )
 AS
@@ -23,11 +23,8 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    select ol.OrderID, ol.SubTotal, ol.ProductID, o.DateTimeStamp, c.PreferredStore, c.FirstName, c.LastName
-	from Customers as c, orderlog as ol, orders as o
-	where ol.orderID = o.orderID
-	and c.CustomerID = o.CustomerID
-	and ol.orderid = @orderID 
-	order by ol.ProductID;
+    select o.*, u.CustomerID
+	from Orders as o, customers as U where 
+    orderID = @orderID
 END
 GO

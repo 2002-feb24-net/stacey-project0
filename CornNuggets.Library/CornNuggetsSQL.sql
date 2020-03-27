@@ -280,9 +280,9 @@ where customerID = 100000000;
 --Left join of customers and orders
 select *
 from orders as o
-inner join customers as c
-on o.customerID = c.customerID
-and c.CustomerID = 100000006;
+inner join orderlog as ol
+on ol.orderid= 1024
+
 
 
 

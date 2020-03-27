@@ -70,15 +70,11 @@ BEGIN
 
 
 		--------------------------------------Summary of order-------------------------------------------------------------
-		select ol.OrderID, ol.SubTotal, ol.ProductID, ol.ProductQty, o.DateTimeStamp, c.Firstname, c.Lastname
-		from Customers as c, orderlog as ol, orders as o
-		where ol.orderID = o.orderID
-		and c.CustomerID = o.CustomerID
-		and ol.orderid = (select max(orderID) from Orders where customerID = (Select CustomerID 
-			from Customers 
-			where Lastname = @LastName
-			and Firstname = @FirstName)) 
-		order by ol.ProductID
+		exec dbo.spOrders_GetDetails (select max(orderID)
+		from Orders
+		where customerID = 100000006)
+
+		
 		
 
 END
