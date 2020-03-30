@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,10 +21,10 @@ namespace CornNuggets.Entities
         public virtual DbSet<OrderLog> OrderLog { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Products> Products { get; set; }
-
+        //set up the connection to the sql server
+        SecretConfig connStr = new SecretConfig();
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            SecretConfig connStr = new SecretConfig();
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(connStr.GetConnString());
@@ -35,17 +36,13 @@ namespace CornNuggets.Entities
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Customer__A4AE64B84A7DAEAD");
+                    .HasName("PK__Customer__A4AE64B896EF49BF");
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.FirstName).HasMaxLength(50);
 
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.PreferredStore)
                     .IsRequired()
@@ -57,7 +54,7 @@ namespace CornNuggets.Entities
             modelBuilder.Entity<NuggetStores>(entity =>
             {
                 entity.HasKey(e => e.StoreId)
-                    .HasName("PK__NuggetSt__3B82F0E1A715B64E");
+                    .HasName("PK__NuggetSt__3B82F0E120BEFF47");
 
                 entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
@@ -74,7 +71,10 @@ namespace CornNuggets.Entities
 
             modelBuilder.Entity<OrderLog>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.LogId)
+                    .HasName("PK__OrderLog__5E5499A8A224E901");
+
+                entity.Property(e => e.LogId).HasColumnName("LogID");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -87,18 +87,19 @@ namespace CornNuggets.Entities
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderLog)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__OrderLog__OrderI__489AC854");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__OrderLog__OrderI__3DE82FB7");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderLog)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__OrderLog__Produc__498EEC8D");
+                    .HasConstraintName("FK__OrderLog__Produc__3EDC53F0");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
-                    .HasName("PK__Orders__C3905BAFE830DA85");
+                    .HasName("PK__Orders__C3905BAF4C4174B1");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
@@ -115,18 +116,18 @@ namespace CornNuggets.Entities
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Orders__Customer__45BE5BA9");
+                    .HasConstraintName("FK__Orders__Customer__3A179ED3");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StoreId)
-                    .HasConstraintName("FK__Orders__StoreID__44CA3770");
+                    .HasConstraintName("FK__Orders__StoreID__39237A9A");
             });
 
             modelBuilder.Entity<Products>(entity =>
             {
                 entity.HasKey(e => e.ProductId)
-                    .HasName("PK__Products__B40CC6ED7B515FE4");
+                    .HasName("PK__Products__B40CC6ED28E3E0DD");
 
                 entity.Property(e => e.ProductId)
                     .HasColumnName("ProductID")

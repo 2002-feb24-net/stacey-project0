@@ -14,6 +14,7 @@ namespace CornNuggets
     {
         public string CustName { get => custName; set => custName = value; }
         public int CustomerID { get; set; }
+        public static List<string> Cust { get => cust; set => cust = value; }
 
         static List<string> cust = new List<string>() { "First Customer" };
         private string custName;
@@ -65,7 +66,7 @@ namespace CornNuggets
         }
         public bool isCustomer(string name)
         {
-            if (cust.Contains(name))
+            if (Cust.Contains(name))
             {
                 //Console.WriteLine("Customer Found");
                 return true;

@@ -38,14 +38,13 @@ CREATE TABLE Customers
 );
 
 
-
 /*-create order table; has a unique order number, datetime stamp, store of origin, products in order,
    customer id
 */
 --drop table Orders;
 CREATE TABLE Orders
 (
-    OrderID INT primary key identity(1000, 1),
+    OrderID INT PRIMARY KEY NOT NULL identity (1000,1),
     DateTimeStamp DATETIME default getdate(),
     StoreID INT Foreign Key References NuggetStores(StoreID), --may need to link to store ID using foreign key
     CustomerID INT Foreign Key References Customers(CustomerID), --may need to link to customer ID using foreign key
@@ -56,7 +55,8 @@ CREATE TABLE Orders
 --drop table OrderLog;
 CREATE TABLE OrderLog
 (
-    OrderID INT FOREIGN KEY REFERENCES Orders(OrderID), --link to the order in the orders as a foreign key
+    LogID INT PRIMARY KEY NOT NULL IDENTITY (1,1), --link to the orderid in the orders
+	OrderID INT NOT NULL FOREIGN KEY REFERENCES Orders(OrderID),
     ProductID INT FOREIGN KEY REFERENCES Products(ProductID), --link to a product in the table as a foreign key
     ProductQty INT default 1,
 	SubTotal money not null default 0.0
@@ -106,7 +106,7 @@ INSERT INTO Products values (225, 'Cheese', 2.5, 1000);
 INSERT INTO Products values (333, 'Fizzy', 1.5, 1000);
 INSERT INTO Products values (334, 'Tea', 1.00, 1000);
 INSERT INTO Products values (335, 'Juice', 1.75, 1000);
-INSERT INTO Products values (336, 'Smoothie', 2.5, 5);
+INSERT INTO Products values (336, 'Smoothie', 2.5, 500);
 
 
 
@@ -117,49 +117,59 @@ INSERT INTO Products values (336, 'Smoothie', 2.5, 5);
 insert into Orders (DateTimeStamp,CustomerID, StoreID, Total) 
 values 
 (
-	GETDATE(), 
-	(Select CustomerID 
-	from Customers 
-	where lastname = 'Stration'
-	and firstname = 'Demon') ,
-	(Select StoreID
-	from NuggetStores
-	where StoreName = 
-		(Select PreferredStore
-		from customers
-		where lastname = 'Stration'
-		and firstname = 'Demon')),
-	(Select ProductPrice
+	GETDATE(), 100000000, 1,(Select ProductPrice
 	from Products
-	where ProductID = 112)
+	where ProductID = 112)*3
 );
+select * from orders
 --add initial order to the log
-insert into OrderLog (OrderID, ProductID, SubTotal)
-values((select max(orderID) from Orders where customerID = (Select CustomerID 
-	from Customers 
-	where lastname = 'Stration'
-	and firstname = 'Demon')), 112,(Select ProductPrice from Products where ProductID = 112));
+insert into OrderLog (OrderID, ProductID, ProductQty, SubTotal)
+values(1000,112,3,(Select ProductPrice from Products where ProductID = 112)*3);
+select * from OrderLog
 
 ----------------------Decrease inventory--------------------------
 update Products
-set Inventory = Inventory - 1
+set Inventory = Inventory - 3
 where ProductID = 112;
-
+select * from Products where productid=112
 ---------------------------------------------------------------------------------------------------
+
+	
+
+--show all columns of the tables:  products,  orders, and orderlog in their respective tables
+
+
+select *
+from products;
+
+select *
+from Orders;
+
+select *
+from OrderLog;
+--------------------------------------------------Add to end of Order-----------------------------------------------------------------------
 --update the order total by adding the next product for that order id and customer
+
+insert into OrderLog (OrderID, ProductID, ProductQty, SubTotal)
+values(1000,223,2,(Select ProductPrice from Products where ProductID = 223)*2);
+
 update Orders
-set Total = Total+(Select ProductPrice
-	from Products
-	where ProductID = 334)
-where OrderID = (select max(orderID) from Orders where customerID = (Select CustomerID 
-	from Customers 
-	where lastname = 'Stration'
-	and firstname = 'Demon'));
+set Total = Total + (Select ProductPrice from Products where ProductID = 223)*2;
 
 update Products
-set Inventory = Inventory - 1
-where ProductID = 334;
--------------------------------------add more items to the order log-----------------------------------------------------------------
+set Inventory = Inventory-2
+where ProductID = 223;
+
+select * FROM Products
+WHERE ProductID=111
+
+select * FROM OrderLog
+
+select * FROM Orders
+WHERE OrderID = 1000
+
+exec [dbo].[spOrders_AddToOrder]
+-----------------------------------------------------------------------------------------------------
 
 --insert the order data into the orderlog for the next item
 insert into OrderLog (OrderID, ProductID, SubTotal)
@@ -210,21 +220,7 @@ insert into OrderLog (OrderID, ProductID, SubTotal)
 values(1003, 333,(Select ProductPrice
 	from Products
 	where ProductID = 333));
---show all columns of the tables: stores, customers, orders, orderlog, and products in their respective tables
-select *
-from customers;
 
-select * 
-from nuggetstores;
-
-select *
-from products;
-
-select *
-from Orders;
-
-select *
-from OrderLog;
 
 --show items in an order and their quantity
 select productid, productqty

@@ -5,7 +5,8 @@ namespace CornNuggets.Entities
 {
     public partial class OrderLog
     {
-        public int? OrderId { get; set; }
+        public int LogId { get; set; }
+        public int OrderId { get; set; }
         public int? ProductId { get; set; }
         public int? ProductQty { get; set; }
         public decimal SubTotal { get; set; }
