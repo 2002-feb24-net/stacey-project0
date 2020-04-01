@@ -12,7 +12,6 @@ namespace CornNuggets
          * C:\Revature\stacey-project0\CornNuggets\Menu.cs
         */
         string Choice {get; set;}
-        static List<string> selection = new List<string>() {"a", "s","v","e","b"};
         SecretConfig code = new SecretConfig();
         public Menu()
         {
