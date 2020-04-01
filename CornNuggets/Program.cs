@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CornNuggets;
+using System.Reflection;
 
 
 namespace CornNuggets
@@ -17,8 +18,8 @@ namespace CornNuggets
          * C:\Revature\stacey-project0\CornNuggets\Program.cs
         */
             //Core functionality
-            //1. add new Customer options: a --> m
-            //2. display all order history of a customer options --> t
+            //1. add new Customer start.Choices: a --> m
+            //2. display all order history of a customer start.Choices --> t
             //3. Search customers by name --> u
             //4. place orders to store locations for customers --> n
             //5. display all order history of a store --> r
@@ -30,7 +31,7 @@ namespace CornNuggets
             SecretConfig connStr = new SecretConfig();
   
 
-            //call start menu for add/search/view/exit options
+            //call start menu for add/search/view/exit start.Choices
             Menu start = new Menu();
             Customer patron = new Customer();
             Store location = new Store();
@@ -41,24 +42,26 @@ namespace CornNuggets
             string lname;
                         
 
-            //loop through menu options until exit
-            string option;
+            //loop through menu start.Choices until exit
             
             fname = start.GetInput("Enter your first name");
             lname = start.GetInput("Enter your last name");
-
+            
             start.ShowBanner("Options");
             //start.ShowMainMenu();
             start.ShowAddMenu();
             start.ShowSearchMenu();
             start.ShowViewMenu();
             Console.WriteLine();
+            string select;
+            
             do
             {
-                option = start.GetInput($"Enter your menu choice {fname}: ");
 
-                if (option =="t"){ProcessMenuSelectionT(option);}
-                else if (option == "m")
+                select = start.GetInput($"Enter your menu choice {fname}: ");
+
+                if (select =="t"){ProcessMenuSelectionT(select);}
+                else if (select == "m")
                 {
                     
                     string firstName = start.GetInput("Enter the new customer's first name");
@@ -68,11 +71,15 @@ namespace CornNuggets
                     
                     patron.AddCustomer(firstName, lastName, storeName);
                 }
-                else if (option == "u"){ProcessMenuSelectionU(option);}
-                else if (option == "r"){ProcessMenuSelectionR(option);}
-                else if (option == "d"){ProcessMenuSelectionD(option);}
-                else if (option == "n"){ProcessMenuSelectionN(option);}
-            }while(option!="e");
+                else if (select == "u"){ProcessMenuSelectionU(select);}
+                else if (select == "r"){ProcessMenuSelectionR(select);}
+                else if (select == "d"){ProcessMenuSelectionD(select);}
+                else if (select == "n"){ProcessMenuSelectionN(select);}
+                start.ShowAddMenu();
+                start.ShowSearchMenu();
+                start.ShowViewMenu();
+
+            }while(select!="e");
             
             Environment.Exit(0);
 

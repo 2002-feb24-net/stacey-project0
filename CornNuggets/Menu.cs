@@ -12,6 +12,7 @@ namespace CornNuggets
          * C:\Revature\stacey-project0\CornNuggets\Menu.cs
         */
         string Choice {get; set;}
+
         SecretConfig code = new SecretConfig();
         public Menu()
         {
